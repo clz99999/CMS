@@ -1,0 +1,65 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+#s1{
+    clear: both;
+}
+ul{
+    list-style: none;
+}
+/*翻页*/
+.cyNav{
+    display: flex;
+    justify-content: center;
+}
+#tableHead {
+    background-color: #f5fafe;
+}
+#search{
+    margin: 20px 0;
+}
+section{
+    margin: 0 auto;
+    width: 96%;
+}
+/*=====面包屑导航========*/
+.page-content .page-breadcrumb.breadcrumb {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    box-shadow: none;
+    padding-right: 30px;
+    padding-left: 8px;
+    margin-top: 15px;
+    margin-bottom: 25px;
+    border: 0px !important;
+    background-color: #eee;
+}
+.breadcrumb {
+    padding: 8px 15px;
+    margin-bottom: 20px;
+    list-style: none;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.pagination {
+    position: relative;
+    left: 40%;
+    top: 50%;
+}
+#detailsOrder_table td{
+    border:1px solid red;
+    padding:0 10px 0 10px;
+}
+#detailsOrder_table thead th{
+    text-align: center;
+}
+#detailsOrder_table tbody td{
+    text-align: center;
+}
+.container{
+
+
+}

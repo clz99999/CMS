@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/Bootstrap-3.7.3-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="css/orderList.css">
+    <style>
+
+    </style>
+    <title></title>
+</head>
+<body>
+<!--=========面包屑导航==========-->
+<header class="container-fluid frame">
+    <div class="row">
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="">首页</a>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <a href="">商品管理</a>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li><a href="">商品列表</a></li>
+        </ul>
+        <!--<div class="col-xs-1">退出</div>-->
+    </div>
+</header>
+
+<section id="s1">
+    <div class="container-fluid">
+        <div class="row" id="search">
+            <div class="col-xs-12">
+                <form action="" class="form-inline cyForm">
+                    <div class="form-group">
+                        <label for="o_state">订单状态：</label>
+                        <select name="o_state" class="form-control" id="o_state">
+                            <option value="">请选择状态</option>
+                            <option value="1">未支付</option>
+                            <option value="2">已支付</option>
+                            <option value="3">已完成</option>
+                            <option value="4">已取消</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="o_under">线上/线下：</label>
+                        <select name="o_under" class="form-control" id="o_under">
+                            <option value="">请选择状态</option>
+                            <option value="0">线上</option>
+                            <option value="1">线下</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="o_dep">交押金：</label>
+                        <select name="o_dep" class="form-control" id="o_dep">
+                            <option value="">请选择状态</option>
+                            <option value="0">否</option>
+                            <option value="1">是</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="selName">查询姓名：</label>
+                        <input type="text" size="6" class="form-control" id="selName">
+                    </div>
+                    <div class="form-group">
+                        <label for="selLog">查询物流：</label>
+                        <input type="text" size="6" class="form-control" id="selLog">
+                    </div>
+                    <button type="button" class="btn btn-success cx" id="btnSearch" >查询</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <table class="table table-striped">
+        <thead>
+        <tr id="tableHead" class="table-title">
+            <th class="text-center">姓名</th>
+            <th class="text-center">电话</th>
+            <th class="text-center">详细地址</th>
+
+            <th class="text-center">订单金额</th>
+
+
+
+            <th class="text-center">创建时间</th>
+            <th class="text-center">物流编号</th>
+            <th class="text-center">线上/线下</th>
+            <th class="text-center">交押金</th>
+            <th class="text-center">订单状态</th>
+            <th class="text-center">预约时间</th>
+            <th class="text-center">留言备注</th>
+            <th class="text-center">操作</th>
+        </tr>
+        </thead>
+        <!--显示数据ejs-->
+        <tbody id="tableList" class="text-center">
+        <% for(var i=0;i< data.length;i++){%>
+        <tr>
+            <td><%=data[i].a_receiver%></td>
+            <td><%=data[i].a_phone%></td>
+            <td><%=data[i].a_province%><%=data[i].a_city%><%=data[i].a_region%><%=data[i].a_details%></td>
+
+            <td><%=data[i].o_amount%></td>
+
+            <td><%=data[i].go_create_time%></td>
+            <td><%=data[i].o_logistNum%></td>
+
+            <%if(data[i].o_underline==1){ %>
+            <td>线下</td>
+            <%}else{%>
+            <td>线上</td>
+            <%}%>
+            <%if(data[i].o_deposit==1){ %>
+            <td>是</td>
+            <%}else{%>
+            <td>否</td>
+            <%}%>
+
+            <%if(data[i].o_state==1){%>
+            <td><span class="label label-warning">未支付</span></td>
+            <%}else if(data[i].o_state==2){%>
+            <td><span class="label label-info">已支付</span></td>
+            <%}else if(data[i].o_state==3){%>
+            <td><span class="label label-success">已完成</span></td>
+            <%}else if(data[i].o_state==4){%>
+            <td><span class="label label-danger">已取消</span></td>
+            <%}%>
+
+            <td><%=data[i].booking_day%>-<%=data[i].booking_time%></td>
+            <td><%=data[i].booking_remark %></td>
+            <td>
+                <span type="button" title="修改"  style="cursor: pointer" rid="<%=data[i].o_u_id%>" onclick="orderUpdate(this)" class="fa fa-edit"></span>
+                <span class="label label-success radius" data-toggle="modal" style="cursor: pointer"  data-target="#myModal" rid="<%=data[i].o_u_id%>"  onclick="orderSearch(this)">详情</span>
+            </td>
+        </tr>
+        <%}%>
+        </tbody>
+    </table>
+    <section class="container " aria-label="Page navigation">
+        <ul class="pagination">
+            <li>
+                <a aria-label="Previous" id="btnPrev" href="javascript:">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li>
+                <%for(var i=1;i<= totalPage;i++){ %>
+                <a onclick="changePage(<%=i%>)" href="javascript:"><%=i%></a>
+                <%}%></li>
+            <li>
+                <a aria-label="Next" id="btnNext" href="javascript:">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+</section>
+
+<div class="modal fade " id="modifyOrder" data-keyboard="true" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                修改订单
+            </div>
+            <div class="modal-body">
+                <div class="form-frame">
+                    <form class="roleList-form" action="/order/update.do" method="post" name="role-form" id="aroleForm">
+                        <div class="form-group">
+                            <label for="o_amount">订单金额</label>
+                            <input class="form-control" type="text" name="o_amount" id="o_amount">
+                        </div>
+                        <div class="form-group">
+                            <label for="o_underline">线上/线下</label>
+                            <select name="state" id="o_underline">
+                                <option value="0">线上</option>
+                                <option value="1">线下</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="o_deposit">交押金</label>
+                            <select name="state" id="o_deposit">
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                        <!--这里添加了修改订单状态-->
+                        <div class="form-group">
+                            <label for="o_stateo">订单状态</label>
+                            <select name="state" id="o_stateo">
+                                <option value="1">未支付</option>
+                                <option value="2">已支付</option>
+                                <option value="3">已完成</option>
+                                <option value="4">已取消</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="a_province">省</label>
+                            <input class="form-control" type="text" name="a_province" id="a_province" >
+                        </div>
+                        <div class="form-group">
+                            <label for="a_city">市</label>
+                            <input class="form-control" type="text" name="a_city" id="a_city" >
+                        </div>
+                        <div class="form-group">
+                            <label for="a_region">区</label>
+                            <input class="form-control" type="text" name="a_region" id="a_region">
+                        </div>
+                        <div class="form-group">
+                            <label for="a_details">街道</label>
+                            <input class="form-control" type="text" name="a_details" id="a_details" >
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn modify-btn" id="btnUpdate" type="button" form="roleForm" data-dismiss="modal" >确认</button>
+                <button class="btn" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade " id="detailsOrder" data-keyboard="true" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                查看详情
+            </div>
+            <div class="modal-body">
+                <div class="form-frame">
+                    <form class="roleList-form" action="/order/select.do" method="post" name="role-form" id="aroleForm">
+                        <table id="detailsOrder_table"></table>
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    console.log("<%=totalPage%>")
+</script>
+</body>
+<script type="application/javascript" src="/js/jquery-3.2.1.js"></script>
+<script type="application/javascript" src="/Bootstrap-3.7.3-dist/js/bootstrap.js"></script>
+<script type="application/javascript" src="/js/ajax.js"></script>
+<script type="application/javascript" src="/js/orderList.js"></script>
+</html>
